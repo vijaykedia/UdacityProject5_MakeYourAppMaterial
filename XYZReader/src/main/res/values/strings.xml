@@ -7,6 +7,11 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
 
-    <string name="up">Up</string>
+    <string name="image_transition_name">ImageTransitionName</string>
+
+
+    <string name="article_detail_toolbar_image_view_description">Toolbar Image</string>
+
+    <string name="article_detail_up_navigation_description">Up Navigation</string>
 
 </resources>

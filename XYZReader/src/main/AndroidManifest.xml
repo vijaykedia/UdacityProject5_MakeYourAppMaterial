@@ -9,13 +9,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".XYZReaderApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Bacon">
+        android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.ArticleListActivity"
+            android:name=".ui.screens.article_list_screen.ArticleListActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,24 +25,18 @@
         </activity>
 
         <activity
-            android:name=".ui.ArticleDetailActivity"
-            android:parentActivityName=".ui.ArticleListActivity">
+            android:name=".ui.screens.article_detail_screen.ArticleDetailActivity"
+            android:parentActivityName=".ui.screens.article_list_screen.ArticleListActivity">
             <intent-filter>
+
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.item/vnd.com.example.xyzreader.items" />
+
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ArticleListActivity" />
+                android:value=".ui.screens.article_list_screen.ArticleListActivity" />
         </activity>
-
-        <service android:name=".data.UpdaterService"
-            android:exported="false" />
-
-        <provider android:name=".data.ItemsProvider"
-            android:authorities="com.example.xyzreader"
-            android:exported="false" />
 
     </application>
 
