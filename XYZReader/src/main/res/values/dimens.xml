@@ -33,6 +33,8 @@
     <dimen name="detail_body_left_margin">16dp</dimen>
     <dimen name="detail_body_right_margin">16dp</dimen>
 
+    <dimen name="detail_body_bottom_padding">48dp</dimen>
+
     <!-- Detail view floating share button -->
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="fab_elevation">4dp</dimen>

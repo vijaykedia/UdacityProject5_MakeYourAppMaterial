@@ -11,8 +11,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,6 @@ import com.example.xyzreader.dagger.Injector;
 import com.example.xyzreader.model.pojo.Article;
 import com.example.xyzreader.util.Util;
 import com.github.florent37.picassopalette.PicassoPalette;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -210,24 +211,17 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailScre
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Picasso.with(getContext()).load(currentArticle.getPhoto()).into(toolbarImageView, new Callback() {
-            @Override
-            public void onSuccess() {
-
-                progressBar.setVisibility(View.GONE);
-
-                PicassoPalette.with(currentArticle.getThumb(), toolbarImageView)
-                        .use(PicassoPalette.Profile.MUTED_LIGHT)
-                        .intoBackground(metaBar, PicassoPalette.Swatch.RGB)
-                        .intoTextColor(title, PicassoPalette.Swatch.TITLE_TEXT_COLOR)
-                        .intoTextColor(subTitle, PicassoPalette.Swatch.TITLE_TEXT_COLOR);
-            }
-
-            @Override
-            public void onError() {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        Picasso.with(getContext()).load(currentArticle.getPhoto()).into(toolbarImageView, PicassoPalette.with(currentArticle.getThumb(), toolbarImageView)
+                .use(PicassoPalette.Profile.MUTED_LIGHT)
+                .intoBackground(metaBar, PicassoPalette.Swatch.RGB)
+                .intoTextColor(title, PicassoPalette.Swatch.TITLE_TEXT_COLOR)
+                .intoTextColor(subTitle, PicassoPalette.Swatch.TITLE_TEXT_COLOR)
+                .intoCallBack(new PicassoPalette.CallBack() {
+                    @Override
+                    public void onPaletteLoaded(Palette palette) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }));
 
         upNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,6 +241,10 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailScre
 
         body.setText(Html.fromHtml(currentArticle.getBody()));
         body.setTypeface(XYZReaderApplication.getInstance().getTypeFace(XYZReaderApplication.ROBOTO_NORMAL));
+
+        // To make text clickable
+        // Reference : http://stackoverflow.com/questions/6226699/how-to-make-text-view-clickable-in-android
+        body.setMovementMethod(LinkMovementMethod.getInstance());
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -296,6 +294,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailScre
 
     /**
      * This will be called by inner classes to pass the reference of {@link ArticleDetailFragment} to {@link ArticleDetailPresenter}
+     *
      * @return reference of current object
      */
     @NonNull
